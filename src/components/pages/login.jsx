@@ -1,78 +1,30 @@
-
-import logo from "../../assets/logo.png";
+import { useState } from "react";
 import { Label } from "../atoms/label";
-import { Input } from "../atoms/input";
-import { Button } from "../atoms/button";
+
 import { Link, useNavigate } from "react-router";
-import { HanblesChange } from "../../utils/hook/hanblesChange";
-import { loginPost } from "../../services/login";
-import { useDispatch } from "react-redux";
-import { login } from "../../redux/slices/authSlice";
+import { LoginForm } from "../molecules/loginForm";
+import { RegisterForm } from "../molecules/registerForm";
 
 export const Login = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch(); 
-
-  const { form, hanbleChangeText } = HanblesChange({ email: "", password: "" });
-
-
-  const onsubmit = () => {
-    loginPost(form).then((resp) => {
-      if (resp.token) {
-        sessionStorage.setItem("Authorization",`Bearer ${ resp.token}`);
-        dispatch(login());
-        navigate("/dashboard"); // usa `useNavigate` para redirigir
-      } else {
-        console.error("Token no recibido");
-      }
-    });
-  };
+  const [action, setAction] = useState(false);
 
   return (
-    <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 border border-2 border-red-800 h-screen">
-      <div className="sm:mx-auto sm:w-full sm:max-w-sm text-center">
-        <img
-          className="mx-auto h-10 w-auto mb-3"
-          src={logo}
-          alt="Your Company"
-        />
-        <Label>Inicia session </Label>
-      </div>
-
-      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <div className="space-y-6" >
-          <div>
-            <Input
-              value={form.email}
-              name={"email"}
-              title={"correo electronico"}
-              onChange={hanbleChangeText}
-            />
-          </div>
-          <div className="mt-2">
-            <Input
-              value={form.password}
-              name={"password"}
-              title={"contraseña"}
-              onChange={hanbleChangeText}
-            />
-          </div>
-          <div>
-            <Button
-              classes={"hover:bg-primarydark text-white "}
-              type="primary"
-              text={"enviar"}
-              onClick={onsubmit}
-            />
-          </div>
+    <div className="bg-slate-200 h-screen flex justify-center items-center">
+      <div className="grid grid-cols-2 border border-2 border-slate-300 rounded-t-lg rounded-b-lg ">
+        <div
+          className={`border border-slate-400 p-2 text-center rounded-tl-lg ${!action&&"bg-secondary opacity-85 "}`}
+          onClick={() => setAction(false)}
+        >
+          <Label classes={`uppercase ${!action&&"text-white"}`}>Inicio session</Label>{" "}
         </div>
-        <div className="text-sm text-center mt-10">
-          <Link
-            to="/recover-password "
-            className="text-secondary text-base hover:text-secondarydark hover:text-lg"
-          >
-            olvidaste contraseña
-          </Link>
+        <div
+          className={`border border-slate-400 p-2 text-center rounded-tr-lg  ${action&&"bg-secondary opacity-85 "}`}
+          onClick={() => setAction(true)}
+        >
+          <Label classes={`uppercase ${action&&"text-white"}`}>regístrate</Label>
+        </div>
+        <div className="col-span-2">
+          {!action ? <LoginForm /> : <RegisterForm />}
         </div>
       </div>
     </div>

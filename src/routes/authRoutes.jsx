@@ -8,7 +8,7 @@ export const AuthRoutes = () => {
   return (
     // <>hola</>
     <Routes>
-      <Route  index element={<Login/>} />
+      <Route index element={<Login/>} />
       <Route path="/recover-password" element={<RecoverPassword/>} />
     </Routes>
   )
