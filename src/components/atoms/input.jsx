@@ -7,6 +7,7 @@ export const Input = ({
   disabled,
   title,
   name,
+  maxLength,
 }) => {
   return (
     <>
@@ -20,9 +21,14 @@ export const Input = ({
         type={type}
         value={value}
         onChange={onChange}
-        className={`border border-sky-600 border-2 w-full p-2 rounded-lg  ${classes}`}
+        className={`
+          border border-sky-600 border-2 w-full p-2 rounded-lg 
+          focus:outline-none focus:border-primary focus:text-black
+          ${classes}
+        `}
         placeholder={placeholder}
         disabled={disabled}
+        maxLength={maxLength}
         autoComplete="off"
       />
     </>
@@ -31,6 +37,7 @@ export const Input = ({
 
 Input.defaultProps = {
   name: "",
+  maxLength: "",
   type: "text",
   value: "",
   onChange: () => {},

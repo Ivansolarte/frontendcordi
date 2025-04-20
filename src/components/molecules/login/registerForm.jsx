@@ -1,11 +1,10 @@
 import { useState } from "react";
-import { Input } from "../atoms/input";
-import { Button } from "../atoms/button";
+import { Input } from "../../atoms/input";
+import { Button } from "../../atoms/button";
 import {  useNavigate } from "react-router";
-import { HanblesChange } from "../../utils/hook/hanblesChange";
-import { registerPost } from "../../services/login";
-import { useDispatch } from "react-redux";
-import { InputPassword } from "../atoms/inputPassword";
+import { HanblesChange } from "../../../utils/hook/hanblesChange";
+import { registerPost } from "../../../services/login";
+import { InputPassword } from "../../atoms/inputPassword";
 
 export const RegisterForm = () => {
   const navigate = useNavigate();
