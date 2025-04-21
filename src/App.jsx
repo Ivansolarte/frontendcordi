@@ -1,14 +1,35 @@
-import { useState } from 'react'
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { AuthRoutes } from "./routes/authRoutes";
+import { AppRoutes } from "./routes/appRoutes";
+import { useDispatch } from 'react-redux';
+import { login } from "./redux/slices/authSlice";
+import { setRole } from "./redux/slices/roleSlice";
+import { useNavigate } from "react-router";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const dispatch = useDispatch();
+  const navigate = useNavigate() 
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
-  return (
-    <>        
-      <p className="read-the-docs">
-        proyecto en blanco
-      </p>
+  useEffect(() => {
+    const token = sessionStorage.getItem('Authorization');
+    const user = JSON.parse(sessionStorage.getItem('loggedUser'))    
+    if (token) {
+      dispatch(login());
+      dispatch(setRole(user.role));
+      navigate("/dashboard"); 
+    }else{
+      navigate("/"); 
+    }
+  }, [])
+  
+  
+  return (     
+    <>
+      {!isAuthenticated?(<AuthRoutes/>):(<AppRoutes/>)}
     </>
+   
   )
 }
 
